@@ -15,7 +15,6 @@ from sqlalchemy import create_engine ,String, Integer, Float, ForeignKey,Column
 from sqlalchemy.orm import declarative_base , sessionmaker
 
 #step 2 
-api_key = 'af356ffc8292c3aae0bd97030085ac8e'
 
 engine = create_engine('sqlite:///chinedatabase.db',echo= False)
 Session =sessionmaker(bind=engine)
