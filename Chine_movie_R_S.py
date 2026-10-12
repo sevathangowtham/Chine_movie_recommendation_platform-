@@ -28,7 +28,7 @@ class User(Base):
     Name = Column(String, nullable=False)
     Email = Column(String, nullable= False, unique=True)
 
-class Fevorate(Base):
+class Favorite(Base):
     __tablename__ = 'favorates'
     ID = Column(Integer, primary_key=True)
     User_ID = Column(Integer , ForeignKey('users.ID'), nullable= False)
@@ -77,5 +77,19 @@ def faver_recommant():
             'vote_average' :movie['vote_average']
         })
     return {'Movie' : movie_list}
+
+
+#Add favorate movie in the database 
+
+@app.route('/add_fave_movie', methods = ['POST'])
+def add_movies():
+    data = request.json
+    user = session.query(User).filter_by(ID = data['User_ID']).first()
+    if not user:
+        return {'Message' : 'User ID is not found !'}
+    favorite = Favorite(User_ID=data['User_ID'], movie_id=data['movie_id'], title=data['title'])
+    session.add(favorite)
+    session.commit()
+    return {'Message' : 'Favorite movie added successfully!'}
 if __name__ == '__main__':
     app.run(debug=True)
